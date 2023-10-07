@@ -1,26 +1,18 @@
 import PropTypes from 'prop-types';
 import { Notification } from './Notification';
 import {
-    ClearButton,
     ContactItem,
     ContactText,
     DeleteButton,
     SecondTitle,
 } from './Contacts.styled';
 
-export const Contacts = ({
-    contacts,
-    handleDeleteContact,
-    handleDeleteAllContacts,
-}) => {
+export const Contacts = ({ contacts, handleDeleteContact }) => {
     return (
         <div>
             <SecondTitle>Contacts</SecondTitle>
             {contacts.length ? (
                 <>
-                    <ClearButton onClick={handleDeleteAllContacts}>
-                        ❌ Clear phonebook
-                    </ClearButton>
                     <ul>
                         {contacts.map(({ id, name, number }) => {
                             return (
@@ -53,7 +45,6 @@ Contacts.propTypes = {
             number: PropTypes.string.isRequired,
         })
     ).isRequired,
-    handleDeleteAllContacts: PropTypes.func.isRequired,
 };
 
 export default Contacts;

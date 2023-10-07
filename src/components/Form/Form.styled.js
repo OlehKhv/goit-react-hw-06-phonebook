@@ -1,15 +1,18 @@
 import { styled } from 'styled-components';
 
 export const PhonebookForm = styled('form')(() => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     marginBottom: '40px',
     borderBottom: '1px solid #507E52',
 }));
 
 export const LabelInput = styled('label')(() => ({
     color: '#171819',
-    display: 'block',
     fontSize: '28px',
     fontWeight: '600',
+    marginBottom: '4px',
 }));
 
 export const InputForm = styled('input')(() => ({

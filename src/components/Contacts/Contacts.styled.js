@@ -35,10 +35,3 @@ export const DeleteButton = styled('button')`
         border-color: red;
     }
 `;
-
-export const ClearButton = styled('button')`
-    font-size: 12px;
-    &:is(:hover, :focus) {
-        color: red;
-    }
-`;

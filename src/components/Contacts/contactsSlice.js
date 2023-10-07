@@ -1,0 +1,42 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
+
+const contactsInitialState = [];
+
+const contactsSlice = createSlice({
+    name: 'contacts',
+
+    initialState: contactsInitialState,
+
+    reducers: {
+        addContact: {
+            reducer(state, action) {
+                if (state.some(({ name }) => name === action.payload.name)) {
+                    alert(`${action.payload.name} is already in contacts!`);
+                    return;
+                }
+
+                state.push(action.payload);
+            },
+            prepare(contact) {
+                return {
+                    payload: {
+                        ...contact,
+                        id: nanoid(),
+                    },
+                };
+            },
+        },
+
+        deleteContact(state, action) {
+            const index = state.findIndex(
+                contact => contact.id === action.payload
+            );
+            state.splice(index, 1);
+        },
+    },
+});
+
+export const { addContact, deleteContact, deleteAllContacts } =
+    contactsSlice.actions;
+export const contactsReducer = contactsSlice.reducer;
