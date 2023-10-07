@@ -21,7 +21,6 @@ export const App = () => {
     };
 
     const handleFilterContacts = ({ target: { value } }) => {
-        console.log(value);
         dispatch(setFilter(value));
     };
 
