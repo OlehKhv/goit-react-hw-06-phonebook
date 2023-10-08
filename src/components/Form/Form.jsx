@@ -1,15 +1,21 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { ButtonAdd, InputForm, LabelInput, PhonebookForm } from './Form.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from 'redux/contacts/selectors';
+import { addContact } from 'redux/contacts/slice';
 
 const INITIAL_STATE = {
     name: '',
     number: '',
 };
 
-export const Form = ({ handleAddContact }) => {
-    const [name, setName] = useState(INITIAL_STATE.name);
-    const [number, setNumber] = useState(INITIAL_STATE.number);
+export const Form = () => {
+    const [contactName, setName] = useState(INITIAL_STATE.name);
+    const [contactNumber, setNumber] = useState(INITIAL_STATE.number);
+
+    const dispatch = useDispatch();
+
+    const contacts = useSelector(selectContacts);
 
     const handleInput = e => {
         const { name, value } = e.target;
@@ -26,9 +32,16 @@ export const Form = ({ handleAddContact }) => {
         }
     };
 
-    const addContact = e => {
+    const handleAddContact = e => {
         e.preventDefault();
-        handleAddContact({ name, number });
+
+        if (contacts.some(({ name }) => name === contactName)) {
+            alert(`${contactName} is already in contacts!`);
+            return;
+        }
+
+        dispatch(addContact({ contactName, contactNumber }));
+
         resetForm();
     };
 
@@ -38,7 +51,7 @@ export const Form = ({ handleAddContact }) => {
     };
 
     return (
-        <PhonebookForm onSubmit={addContact}>
+        <PhonebookForm onSubmit={handleAddContact}>
             <LabelInput htmlFor="name">Name</LabelInput>
             <InputForm
                 type="text"
@@ -46,7 +59,7 @@ export const Form = ({ handleAddContact }) => {
                 pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                 required
-                value={name}
+                value={contactName}
                 onChange={handleInput}
                 id="name"
                 placeholder="🙍‍♂️   Alex Smith"
@@ -59,7 +72,7 @@ export const Form = ({ handleAddContact }) => {
                 pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                 required
-                value={number}
+                value={contactNumber}
                 onChange={handleInput}
                 id="number"
                 placeholder="📞   222-22-22"
@@ -68,10 +81,6 @@ export const Form = ({ handleAddContact }) => {
             <ButtonAdd type="submit">➕ Add contact</ButtonAdd>
         </PhonebookForm>
     );
-};
-
-Form.propTypes = {
-    handleAddContact: PropTypes.func.isRequired,
 };
 
 export default Form;

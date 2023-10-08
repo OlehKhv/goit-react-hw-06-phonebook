@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types';
 import { InputForm } from '../Form/Form.styled';
 import { FilterField, LabelSearchInput } from './Filter.styled';
+import { useDispatch } from 'react-redux';
+import { setFilter } from 'redux/filter/slice';
 
-export const Filter = ({ handleFilterContacts }) => {
+export const Filter = () => {
+    const dispatch = useDispatch();
+
     return (
         <FilterField>
             <LabelSearchInput htmlFor="filter">
@@ -13,14 +16,12 @@ export const Filter = ({ handleFilterContacts }) => {
                 id="filter"
                 type="text"
                 placeholder="🙍‍♂️   Enter name"
-                onChange={handleFilterContacts}
+                onChange={({ target: { value } }) => {
+                    dispatch(setFilter(value));
+                }}
             />
         </FilterField>
     );
-};
-
-Filter.propTypes = {
-    handleFilterContacts: PropTypes.func.isRequired,
 };
 
 export default Filter;
