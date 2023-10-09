@@ -35,7 +35,7 @@ export const Form = () => {
     const handleAddContact = e => {
         e.preventDefault();
 
-        if (contacts.some(({ name }) => name === contactName)) {
+        if (contacts.some(({ contactName: name }) => name === contactName)) {
             alert(`${contactName} is already in contacts!`);
             return;
         }
